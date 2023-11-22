@@ -11,6 +11,7 @@
   bottom: 2%;
   width:50px;
   z-index: 1;
+  cursor: pointer;
 }
 /* 
 body{
