@@ -4,6 +4,7 @@ import { OrbitControls, ScrollControls, useScroll } from '@react-three/drei'
 import { getProject, val } from '@theatre/core'
 
 import { Modal } from './Modal.js'
+import {Auth} from './components/Auth.js'
 import MyElement3D from './MyElement3D.js'
 
 import flyThroughState from './fly.json'
@@ -24,10 +25,13 @@ function App() {
 
   return (
     <>
+      <div>
+        <Auth/>
+      </div>
       <div className='background'>
       <Canvas
       shadows
-      camera = {{position: [0, 2, 0], fov: 90}}
+      camera = {{position: [-4, 4, 0], fov: 90}}
       >      
       <MyElement3D />
       <OrbitControls/>
