@@ -3,7 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, ScrollControls, useScroll } from '@react-three/drei'
 import { getProject, val } from '@theatre/core'
 
-import {Modal} from './Modal.js'
+import { Modal } from './Modal.js'
 import MyElement3D from './MyElement3D.js'
 
 import flyThroughState from './fly.json'
@@ -24,20 +24,33 @@ function App() {
 
   return (
     <>
-
-     <Canvas
+      <div className='background'>
+      <Canvas
       shadows
       camera = {{position: [0, 2, 0], fov: 90}}
-      >
+      >      
       <MyElement3D />
       <OrbitControls/>
       </Canvas>
+      </div>
       <a className="click-button" 
       onClick={() => {
         openModal();
       }}>
       <img class="Vector1" src="./images/fi-rr-interrogation.png"/>
       </a>
+      <div className="container">
+          <div class="Rectangle-1">
+          <div class="info_title">
+              조작법
+          </div>
+          <div class="Rectangle-2"></div>
+          <div class="info_text">
+              세포 곳곳에 있는 물체를 클릭해보세요!<br/>
+              다른 소리와 다른 시각을 체험하실 수 있습니다.
+          </div>
+          </div>
+      </div>
     </>
   )
 }
