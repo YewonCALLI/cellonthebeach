@@ -2,6 +2,7 @@ import { getAuth, signInAnonymously, signOut } from 'firebase/auth';
 import { useState } from 'react';
 import { auth, provider } from '../firebase-config';
 import Cookies from 'universal-cookie'
+import "../css/intro.css"
 const cookies = new Cookies()
 
 export const Auth = (props) => {
@@ -33,14 +34,14 @@ export const Auth = (props) => {
     };
   
     return (
-      <div>
+      <div className='background'>
         {user ? (
           <div>
             <p>로그인된 사용자: {user.uid}</p>
             <button onClick={handleSignOut}>로그아웃</button>
           </div>
         ) : (
-          <button onClick={handleAnonymousSignIn}>익명 로그인</button>
+          <button className="login" onClick={handleAnonymousSignIn}>login in to <br/> Cell on the beach</button>
         )}
       </div>
     );
