@@ -1,33 +1,35 @@
 import { getAuth, signInAnonymously, signOut } from 'firebase/auth';
 import { useState } from 'react';
-import { auth } from '../firebase-config.js';
+import { auth, provider } from '../firebase-config';
+import Cookies from 'universal-cookie'
+const cookies = new Cookies()
 
-export const Auth = () => {
+export const Auth = (props) => {
+    const {setIsAuth} = props;
     const [user, setUser] = useState(null);
-
-    const handleAnonymousSignIn = () => {
-        signInAnonymously(auth)
-        .then((userCredential) => {
+    const handleAnonymousSignIn = async () => {
+        try{
           // 로그인 성공 시 호출되는 콜백
-          const { user } = userCredential;
-          setUser(user);
-        })
-        .catch((error) => {
+          const result = await signInAnonymously(auth, provider);
+          cookies.set("auth-token", result.user.refreshToken)
+          setIsAuth(true);
+        }
+        catch(error){
           // 로그인 실패 시 호출되는 콜백
           console.error('익명 로그인 실패:', error);
-        });
+        };
     };
   
     const handleSignOut = () => {
       signOut(auth)
-        .then(() => {
+        try {
           // 로그아웃 성공 시 호출되는 콜백
           setUser(null);
-        })
-        .catch((error) => {
+        }
+        catch(error){
           // 로그아웃 실패 시 호출되는 콜백
           console.error('로그아웃 실패:', error);
-        });
+        };
     };
   
     return (

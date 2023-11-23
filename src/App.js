@@ -1,13 +1,14 @@
 import './App.css'
+import { useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, ScrollControls, useScroll } from '@react-three/drei'
 import { getProject, val } from '@theatre/core'
-
-import { Modal } from './Modal.js'
-import {Auth} from './components/Auth.js'
-import MyElement3D from './MyElement3D.js'
-
-import flyThroughState from './fly.json'
+import { Auth } from './components/Auth'
+import {auth} from './firebase-config.js'
+import MyElement3D from './MyElement3D'
+import flyThroughState from './fly.json';
+import Cookies from 'universal-cookie'
+const cookies = new Cookies()
 
 
 function App() {
@@ -17,17 +18,15 @@ function App() {
 
   const openModal = () => {
     if(document.querySelector(".container").classList.contains("modal-open")){
-      document.querySelector(".container").classList.remove("modal-open");
+      document.querySelector(".container").classList.remokpve("modal-open");
     }else{
         document.querySelector(".container").classList.add("modal-open");
     }
   };
 
+  
   return (
     <>
-      <div>
-        <Auth/>
-      </div>
       <div className='background'>
       <Canvas
       shadows

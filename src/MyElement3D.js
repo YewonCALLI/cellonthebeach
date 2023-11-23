@@ -9,6 +9,7 @@ function MyElement3D(){
 
     const cube = useRef()
     const model = useFBX("./models/test3.fbx")
+    const model2 = useGLTF("./models/raw.glb")
     const scene = model.scene;
     const pointLight = useRef()
     const pointLight1 = useRef()
@@ -22,7 +23,6 @@ function MyElement3D(){
     useHelper(pointLight, THREE.PointLightHelper, 1, "teal")
     useHelper(pointLight1, THREE.PointLightHelper, 1, "teal")
 
-    // const model2 = useGLTF("./models/scene.gltf")
     // const animations = useAnimations(model.animations, model.scene)
     // const action = animations.actions[actionNames[0]]
 
@@ -76,6 +76,7 @@ function MyElement3D(){
         <>
         <Environment preset="sunset"/>
         <LightController />
+        <primitive scale={3.0} position={[0, 0, 0]} object={model2.scene}></primitive>
         
         <primitive 
         scale={0.01}
@@ -93,7 +94,6 @@ function MyElement3D(){
         } }
         onPointerEnter={ () => { document.body.style.cursor = 'pointer' } }
         onPointerLeave={ () => { document.body.style.cursor = 'default' } }
-
         />
 
     </>
