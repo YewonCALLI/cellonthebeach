@@ -15,24 +15,14 @@ const cookies = new Cookies();
 function Room(){
     const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
     const [room, setRoom] = useState(null);
+    
 
     const roomInputRef = useRef(null);
-
-    console.log(isAuth);
-
     const signUserOut = async () => {
         await signOut(auth);
         cookies.remove("auth-token");
         setIsAuth(false);
     }
-
-    const openModal = () => {
-        if(document.querySelector(".container").classList.contains("modal-open")){
-          document.querySelector(".container").classList.remokpve("modal-open");
-        }else{
-            document.querySelector(".container").classList.add("modal-open");
-        }
-      };
 
     if(!isAuth){
         return(
@@ -45,13 +35,16 @@ function Room(){
         <>{
             room ? (<>
                 <div className='background'>
+
                     <div className='chat'>
                         <Chat room={room}/>
                     </div>
+
                     <Canvas shadows camera = {{position: [-2, 2, 0], fov: 90}}>      
-                        <MyElement3D />
+                        <MyElement3D room = {room}/>
                         <OrbitControls/>
                     </Canvas>
+                    
                 </div>
                 </>
             ) : (

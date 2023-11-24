@@ -1,16 +1,24 @@
 import{ useFrame,useThree } from "@react-three/fiber"
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import { Environment, OrbitControls, useGLTF, useAnimations, useFBX ,useHelper} from "@react-three/drei"
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 import { DirectionalLightHelper, PointLightHelper } from "three"
 import * as THREE from 'three'
+import {addDoc, collection, onSnapshot, serverTimestamp, query, where, orderBy} from 'firebase/firestore';
+import {auth, db} from './firebase-config.js';
 
-function MyElement3D(){
+import "./css/chat.css"
+
+const MyElement3D = (props) =>{
+
+    const {room} = props;
+    const [newMessage, setNewMessage] = useState('');
+    const [messages, setMessages] = useState([]);
+    const messagesRef = collection(db, 'messages');
 
     const cube = useRef()
-    const model = useFBX("./models/texture_v001.fbx")
+    const model = useFBX("./models/texture_v002.fbx")
     const model2 = useGLTF("./models/raw.glb")
-    const scene = model.scene;
     const pointLight = useRef()
     const pointLight1 = useRef()
     const directionalLight = useRef()
@@ -34,6 +42,38 @@ function MyElement3D(){
 
     const { camera } = useThree();
 
+    useEffect(() => {
+        const queryMessages = query(messagesRef, where('room', '==', room), orderBy('createdAt'))
+        const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
+            let messages = [];
+            snapshot.forEach((doc) => {
+            messages.push({...doc.data(), id: doc.id});
+            });
+            setMessages(messages);
+        })
+        return () => unsubscribe();
+    }, [])
+
+
+    const handleSubmit = async (e) => {
+        // e.preventDefault();
+
+        //Message가 비어있으면 아무것도 하지 않음
+        if(newMessage === '') return;
+
+        await addDoc(messagesRef, {
+            text: newMessage,
+            createdAt: serverTimestamp(),
+            uid: auth.currentUser.uid,
+            room,
+        });
+
+    }
+
+
+
+    //threejs 부분
+
     model.traverse((child) => {
         if (child.isMesh) {
           child.castShadow = true
@@ -41,8 +81,6 @@ function MyElement3D(){
         }
       }
     );
-
-
 
     const LightController = (props) => (
         <>
@@ -67,11 +105,12 @@ function MyElement3D(){
     );
     
     const playAudio = (path) =>{
-        const audio = new Audio("./sounds/SC_231112_011405.wav");
+        const audio = new Audio("./sounds/piong.m4a");
         audio.play();
     }
     
-
+    
+    //three.js 부분
     return(
         <>
         <Environment preset="sunset"/>
@@ -84,20 +123,22 @@ function MyElement3D(){
         object={model}
         onClick={ (event) =>
         {
-            console.log('click')
-            console.log(event.object)
-            clicked_location = event.object
             // target = clicked_location.position 
+            setNewMessage(event.object.name)
+            handleSubmit(event)
             event.object.material.color.set(`hsl(${Math.random() * 360}, 100%, 75%)`)
             event.stopPropagation()
-            // playAudio()
         } }
+
         onPointerEnter={ () => { document.body.style.cursor = 'pointer' } }
         onPointerLeave={ () => { document.body.style.cursor = 'default' } }
+    
         />
 
     </>
+
+    
     )
 }
 
-export default MyElement3D
+export default MyElement3D;

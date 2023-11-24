@@ -17,5 +17,6 @@ canvas{
     background-color: transparent;
     z-index: 1;
     color: white;
-    pointer-events: none; /* This is important to make the chat not clickable */
+    pointer-events: none; 
+    /* This is important to make the chat not clickable */
 }

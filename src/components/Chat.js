@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import {addDoc, collection, onSnapshot, serverTimestamp, query, where, orderBy} from 'firebase/firestore';
-import {auth, db } from '../firebase-config';
+import { Environment, OrbitControls, useGLTF, useAnimations, useFBX ,useHelper} from "@react-three/drei"
+import * as THREE from 'three'
+import { MyElement3D } from '../MyElement3D';
+import {auth, db } from '../firebase-config.js';
 import "../css/chat.css"
 
 export const Chat = (props) => {
@@ -38,6 +41,18 @@ export const Chat = (props) => {
         setNewMessage('');
     }
 
+    const playAudio = (path) =>{
+        const audio = new Audio("../sounds/piong.m4a");
+        audio.play();
+    }
+
+    for(var i = 0; i < messages.length; i++){
+        if(messages[i].text == "factory01"){
+            playAudio();
+            console.log(messages);
+        }
+    }
+
     return (
         <div className = "chat-app">
             <div className="chat-title">
@@ -59,12 +74,15 @@ export const Chat = (props) => {
                 <input 
                 className="new-message-input" 
                 placeholder="Type your message here..."
-                onChange = {(e) => setNewMessage(e.target.value)}
+                onChange = {(e) => setNewMessage(e.object.name)}
                 value = {newMessage}/>
                 <button type="submit" className="send-button">
                     Send
                 </button>
             </form>
+
         </div>
     )
 }
+
+
