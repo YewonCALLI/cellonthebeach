@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'OffBitTrial-DotBold';
-    src: url('/Users/jang-yewon/Documents/GitHub/cellonthebeach/cellonthebeach/public/font/OffBitTrial-DotBold.otf') format('opentype');
+    src: url('./OffBitTrial-DotBold.ttf') format('truetype');
 }
 
 canvas{
