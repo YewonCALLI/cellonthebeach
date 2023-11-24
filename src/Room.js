@@ -44,11 +44,13 @@ function Room(){
                     </div>
 
                     <div className='room'>
-                        <label>Enter Room Name: </label>
-                        <input ref={roomInputRef}/>
-                        <button onClick={() => setRoom(roomInputRef.current.value)}>
-                            Enter Chat
-                        </button>
+                        <label className='room_text'>Enter Room Name</label>
+                        <div className='room_2'>
+                            <input className= "room_input" ref={roomInputRef}/>
+                            <button className= "room_complete" onClick={() => setRoom(roomInputRef.current.value)}>
+                                ✦Start✦
+                            </button>
+                        </div>
                     </div>
                 </div>
             )

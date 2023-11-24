@@ -41,7 +41,7 @@ export const Auth = (props) => {
             <button onClick={handleSignOut}>로그아웃</button>
           </div>
         ) : (
-          <button className="login" onClick={handleAnonymousSignIn}>login in to <br/> Cell on the beach</button>
+          <button className="login" onClick={handleAnonymousSignIn}>login to <br/> Cell on the beach</button>
         )}
       </div>
     );

@@ -116,3 +116,71 @@
     animation: fadein 4s;
     animation-delay: 2s;
 }
+
+.room{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    visibility:hidden;
+    flex-direction: column;
+    gap: 50px;
+    transform: translate(-50%,-50%);
+    color: white;
+    animation: fadein 4s forwards;
+    animation-delay: 6s;
+}
+
+.room_2{
+    position: relative;
+    display: flex;
+    left: 50%;
+    width:300px;
+    flex-direction: row;
+    transform: translate(-50%,-50%);
+    justify-content: space-evenly;
+    align-items: center;
+    color: white;
+}
+
+.room_text{
+    position: relative;
+    font-size: 32px;
+    font-family: 'SUITE-Regular';
+    font-weight: 100;   
+    text-align: center;
+    color: white;
+}
+
+.room_complete{
+    position: relative;
+    width:120px;
+    height:40px;
+    background-color: transparent;
+    color:white;
+    cursor: pointer;
+    font-size: 20px;
+    font-family: 'SUITE-Regular';
+    border:0px;
+}
+
+.sign-out{
+    position: absolute;
+    background-color: white;
+    z-index: 2;
+}
+
+.room_input{
+    position: relative;
+    font-size: 15px;
+    border: 0;
+    color:#fff;
+    font-size: 32px;
+    font-family: 'SUITE-Regular';
+    text-align: center;
+    width:100px;
+    outline: none;
+    padding-left: 10px;
+    border-bottom: #fff solid 1px;
+    background-color: transparent;
+}
