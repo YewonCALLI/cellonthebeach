@@ -8,7 +8,7 @@ import * as THREE from 'three'
 function MyElement3D(){
 
     const cube = useRef()
-    const model = useFBX("./models/test3.fbx")
+    const model = useFBX("./models/texture_v001.fbx")
     const model2 = useGLTF("./models/raw.glb")
     const scene = model.scene;
     const pointLight = useRef()

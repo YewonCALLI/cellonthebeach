@@ -7,7 +7,7 @@
 
 
 .background{
-    background-color: black;
+    background-image: linear-gradient(to bottom, #2a8ffe 30%, #5E96D7 100%);
 }
 .login{
     position: absolute;

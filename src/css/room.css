@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'OffBitTrial-DotBold';
+    src: url('/Users/jang-yewon/Documents/GitHub/cellonthebeach/cellonthebeach/public/font/OffBitTrial-DotBold.otf') format('opentype');
+}
+
+canvas{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to bottom, #2a8ffe 30%, #5E96D7 100%);
+    z-index: 0;
+}
+
+.chat{
+    position: absolute;
+    width: 20%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    z-index: 1;
+    color: white;
+}

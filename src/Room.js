@@ -3,9 +3,13 @@ import "./App.css";
 import { Auth } from './components/Auth';
 import Cookies from 'universal-cookie';
 import {Chat } from './components/Chat';
+import { Canvas} from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase-config';
+import MyElement3D from './MyElement3D';
 import "./css/intro.css"
+import "./css/room.css"
 const cookies = new Cookies();
 
 function Room(){
@@ -31,8 +35,17 @@ function Room(){
     }
     return(
         <>{
-            room ? (
-                <Chat room={room}/>
+            room ? (<>
+                <div className='background'>
+                    <div className='chat'>
+                        <Chat room={room}/>
+                    </div>
+                    <Canvas shadows camera = {{position: [-2, 2, 0], fov: 90}}>      
+                        <MyElement3D />
+                        <OrbitControls/>
+                    </Canvas>
+                </div>
+                </>
             ) : (
                 <div className='background'>
                     <div className="loading">
