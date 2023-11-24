@@ -26,6 +26,14 @@ function Room(){
         setIsAuth(false);
     }
 
+    const openModal = () => {
+        if(document.querySelector(".container").classList.contains("modal-open")){
+          document.querySelector(".container").classList.remokpve("modal-open");
+        }else{
+            document.querySelector(".container").classList.add("modal-open");
+        }
+      };
+
     if(!isAuth){
         return(
         <div>
@@ -70,7 +78,7 @@ function Room(){
             }
             <div className='sign-out'>
                 <button onClick={signUserOut}>Sign Out</button>
-            </div>        
+            </div>       
         </>
     )
 }
