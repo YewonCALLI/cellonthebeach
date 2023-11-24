@@ -9,7 +9,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from './firebase-config';
 import MyElement3D from './MyElement3D';
 import "./css/intro.css"
-import "./room.css"
+import "./css/room.css"
 const cookies = new Cookies();
 
 function Room(){

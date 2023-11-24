@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import {addDoc, collection, onSnapshot, serverTimestamp, query, where, orderBy} from 'firebase/firestore';
 import {auth, db } from '../firebase-config';
+import "../css/chat.css"
 
 export const Chat = (props) => {
     const {room} = props;
@@ -39,13 +40,17 @@ export const Chat = (props) => {
 
     return (
         <div className = "chat-app">
+            <div className="chat-title">
+                Cell on the beach
+            </div>
+    
             <div className = "header">
-                <h1> Welcome to : {room} </h1>
+                <span> Welcome to : Room {room} </span>
             </div>
             <div className='messages'>
             {messages.map((message) => (
                 <div className='message' key={message.id}>
-                <span className='user'> {message.uid}</span>
+                <span className='user'> {message.uid}님이 입장하였습니다. </span>
                 {message.text}
                 </div>
             ))}
