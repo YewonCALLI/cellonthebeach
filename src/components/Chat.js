@@ -7,6 +7,7 @@ import {
   query,
   where,
   orderBy,
+  getDocs
 } from "firebase/firestore";
 import {
   Environment,
@@ -29,20 +30,36 @@ export const Chat = (props) => {
   const messagesRef = collection(db, "messages");
 
   useEffect(() => {
-    const queryMessages = query(
-      messagesRef,
-      where("room", "==", room),
-      orderBy("createdAt")
-    );
-    const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
+    // 컴포넌트가 처음으로 마운트될 때 초기 메시지를 가져오기
+    const fetchMessages = async () => {
+      const queryMessages = query(
+        messagesRef,
+        where("room", "==", room),
+        orderBy("createdAt")
+      );
+
+      const snapshot = await getDocs(queryMessages);
+  
+
       let messages = [];
       snapshot.forEach((doc) => {
         messages.push({ ...doc.data(), id: doc.id });
       });
-      setMessages(messages);
-    });
-    return () => unsubscribe();
+      const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
+        let messages = [];
+        snapshot.forEach((doc) => {
+          messages.push({ ...doc.data(), id: doc.id });
+        });
+        setMessages(messages);
+      });
+
+      setLoadedMessages(messages);
+    };
+
+    fetchMessages();
   }, []);
+
+  console.log(messagesRef)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,9 +101,6 @@ export const Chat = (props) => {
     for (var i = 0; i < loadedMessages.length; i++) {
       if (loadedMessages[i].text == "factory01") {
         playKick();
-      }
-      if (loadedMessages[i].text == "pCube1") {
-        playAudio();
       }
     }
   }, [loadedMessages]);

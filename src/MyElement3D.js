@@ -32,7 +32,7 @@ const MyElement3D = (props) => {
   const messagesRef = collection(db, "messages");
 
   const cube = useRef();
-  const model = useFBX("./models/factory_anim_v002.fbx");
+  const model = useFBX("./models/nuclear_final2.fbx");
   const model2 = useGLTF("./models/raw.glb");
   const pointLight = useRef();
   const pointLight1 = useRef();
@@ -44,14 +44,17 @@ const MyElement3D = (props) => {
   const mixer = new THREE.AnimationMixer(model);
   const animationClip = model.animations && model.animations[0];
 
+  console.log(model.animations);
+
   if (animationClip) {
+    animationClip.duration = 9;
     const action = mixer.clipAction(animationClip);
     action.play();
   }
 
-  useFrame((state) => {
+  useFrame(() => {
     if (animationClip) {
-      mixer.update(state.clock.getDelta());
+      mixer.update(0.001);    
     }
   });
 
@@ -109,7 +112,6 @@ const MyElement3D = (props) => {
     for (var i = 0; i < loadedMessages.length; i++) {
       if (loadedMessages[i].text == "factory01") {
         playKick();
-        console.log(loadedMessages[i].text);
       }
       if (loadedMessages[i].text == "pCube1") {
         playAudio();
@@ -138,7 +140,9 @@ const MyElement3D = (props) => {
     }
   });
 
-  model.children[94].children[2].traverse((child) => {
+  console.log(model.children)
+
+  model.children[88].children[1].traverse((child) => {
     child.material = new THREE.MeshStandardMaterial({
       map: texture,
       roughness: 0.5,
@@ -146,7 +150,6 @@ const MyElement3D = (props) => {
     });
   });
 
-  console.log(model.children[95]);
 
   const LightController = (props) => (
     <>
