@@ -1,6 +1,6 @@
 import{ useFrame,useThree } from "@react-three/fiber"
 import { useRef, useState, useEffect } from "react"
-import { Environment, OrbitControls, useGLTF, useAnimations, useFBX ,useHelper} from "@react-three/drei"
+import { Environment, OrbitControls, useGLTF, useAnimations, useFBX ,useHelper, useTexture} from "@react-three/drei"
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 import { DirectionalLightHelper, PointLightHelper } from "three"
 import * as THREE from 'three'
@@ -17,14 +17,29 @@ const MyElement3D = (props) =>{
     const messagesRef = collection(db, 'messages');
 
     const cube = useRef()
-    const model = useFBX("./models/texture_v002.fbx")
+    const model = useFBX("./models/factory_anim_v001.fbx")
     const model2 = useGLTF("./models/raw.glb")
     const pointLight = useRef()
     const pointLight1 = useRef()
     const directionalLight = useRef()
-    const raycaster = new THREE.Raycaster();
-    var clicked_location = new THREE.Object3D();
-    var target = new THREE.Vector3(2,2,0)
+    const texture = useTexture("./images/texture.jpeg")
+   
+
+    const mixer = new THREE.AnimationMixer(model);
+    const animationClip = model.animations && model.animations[0];
+
+
+    if (animationClip) {
+        const action = mixer.clipAction(animationClip);
+        action.play();
+    }
+
+    useFrame((state) => {
+        if(animationClip){
+        mixer.update(state.clock.getDelta());
+        }
+    });
+
 
 
     useHelper(directionalLight, THREE.DirectionalLightHelper, 1, "teal")
@@ -42,6 +57,7 @@ const MyElement3D = (props) =>{
 
     const { camera } = useThree();
 
+
     useEffect(() => {
         const queryMessages = query(messagesRef, where('room', '==', room), orderBy('createdAt'))
         const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
@@ -53,6 +69,38 @@ const MyElement3D = (props) =>{
         })
         return () => unsubscribe();
     }, [])
+
+    const playAudio = (path) => {
+        const audio = new Audio("./sounds/background.m4a");
+        audio.play();
+    };
+    
+    const playKick = (path) => {
+        const audio = new Audio("./sounds/kick.wav"); 
+        audio.play();
+    }
+
+    const [loadedMessages, setLoadedMessages] = useState([
+        {
+          text: messages,
+          createdAt: serverTimestamp(),
+          uid: auth.currentUser.uid,
+          room,
+        },
+    ]);
+
+    useEffect(() => {
+        for (var i = 0; i < loadedMessages.length; i++) {
+          if (loadedMessages[i].text == "factory01") {
+            playKick();
+            console.log(loadedMessages[i].text)
+          }
+          if (loadedMessages[i].text == "pCube1") {
+            playAudio();
+          }
+        }
+    }, [loadedMessages]);
+    
 
 
     const handleSubmit = async (e) => {
@@ -70,9 +118,6 @@ const MyElement3D = (props) =>{
 
     }
 
-
-
-    //threejs 부분
 
     model.traverse((child) => {
         if (child.isMesh) {
@@ -104,13 +149,6 @@ const MyElement3D = (props) =>{
         </>
     );
     
-    const playAudio = (path) =>{
-        const audio = new Audio("./sounds/piong.m4a");
-        audio.play();
-    }
-    
-    
-    //three.js 부분
     return(
         <>
         <Environment preset="sunset"/>
@@ -135,10 +173,15 @@ const MyElement3D = (props) =>{
     
         />
 
+        <mesh>
+            <primitive scale={0.01} position={[0, 0, 0]} object={model.children[106]}></primitive>
+            <meshStandardMaterial map={texture}/>
+        </mesh>
+
     </>
 
     
     )
 }
 
-export default MyElement3D;
+export default MyElement3D
