@@ -79,13 +79,11 @@ export const Chat = (props) => {
     },
   ]);
 
-  console.log(loadedMessages)
 
   useEffect(() => {
     for (var i = 0; i < loadedMessages.length; i++) {
       if (loadedMessages[i].text == "factory01") {
         playKick();
-        console.log(loadedMessages[i].text)
       }
       if (loadedMessages[i].text == "pCube1") {
         playAudio();

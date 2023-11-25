@@ -213,7 +213,6 @@ const MyElement3D = (props) => {
         }}
       />
 
-      {/* <primitive scale={0.01} position={[0, 0, 0]} object={Eye}></primitive> */}
     </>
   );
 };
