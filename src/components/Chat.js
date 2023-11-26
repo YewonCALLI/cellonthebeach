@@ -101,37 +101,46 @@ export const Chat = (props) => {
     },
   ]);
 
-  // const sound = () => {
-  //   for (var i = 0; i < loadedMessages.length; i++) {
-  //     if (loadedMessages[i].text == "pCube1") {
-  //       playKick();
-  //     }
-  //   }
-  // };
+  useEffect(() => {
+    // var intervalId;
+    // setTimeout(function () {
+    //   intervalId = setInterval(function () {
+        if (messages[messages.length - 1] && messages[messages.length - 1].text === "pCube1") {
+          playKick();
+        }
+        else if (messages[messages.length - 1] && messages[messages.length - 1].text === "pCube3") {
+          playAudio();
+        }
+    //   }, 100);
+    // });
+  }, [messages]);
 
   // console.log(loadedMessages.length)
-  var intervalId;
-  setTimeout(function() {
-  intervalId = setInterval(function() {
-    while(i < loadedMessages.length){
-      if(loadedMessages[i].text == "pCube1"){
-        playKick();
+//   var intervalId;
+//   setTimeout(function() {
+//   intervalId = setInterval(function() {
+//     while(i < loadedMessages.length){
+//       if(loadedMessages[i].text == "pCube1"){
+//         playKick();
 
-      }
-      else if(loadedMessages[i].text == "polySurface10"){
-        playAudio();
-      }
-      console.log(loadedMessages[i].text);
-      console.log(i);
-      i++;
-    }
-  }, 100);
-}, 15000);
+//       }
+//       else if(loadedMessages[i].text == "polySurface10"){
+//         playAudio();
+//       }
+//       console.log(loadedMessages[i].text);
+//       console.log(i);
+//       i++;
+//     }
+//   }, 100);
+// }, 15000);
 
   // 5초 후에 clearInterval() 함수를 사용하여 타이머 중지
-  setTimeout(function() {
-    clearInterval(intervalId);
-  }, 60000);
+  // setTimeout(function() {
+  //   clearInterval(intervalId);
+  // }, 60000);
+
+  
+
 
 
   return (
