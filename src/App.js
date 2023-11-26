@@ -30,7 +30,7 @@ function App() {
       <div className='background'>
       <Canvas
       shadows
-      camera = {{position: [-4, 4, 0], fov: 90}}
+      camera = {{position: [0, 0, 0], fov: 90}}
       >      
       <MyElement3D />
       <OrbitControls/>

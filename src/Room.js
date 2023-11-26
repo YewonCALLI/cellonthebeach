@@ -7,6 +7,7 @@ import { Canvas} from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase-config';
+import { Background } from './components/Background';
 import MyElement3D from './MyElement3D';
 import "./css/intro.css"
 import "./css/room.css"
@@ -35,16 +36,16 @@ function Room(){
         <>{
             room ? (<>
                 <div className='background'>
+                    <Background/>
 
                     <div className='chat'>
                         <Chat room={room}/>
                     </div>
 
-                    <Canvas shadows camera = {{position: [-2, 2, 0], fov: 90}}>      
+                    <Canvas shadows camera = {{position: [2, 0, 0], fov: 90}}>      
                         <MyElement3D room = {room}/>
                         <OrbitControls/>
                     </Canvas>
-                    
                 </div>
                 </>
             ) : (

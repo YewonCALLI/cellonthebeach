@@ -9,7 +9,6 @@ import {
   useHelper,
   useTexture,
 } from "@react-three/drei";
-import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import { DirectionalLightHelper, PointLightHelper } from "three";
 import * as THREE from "three";
 import {
@@ -20,10 +19,12 @@ import {
   query,
   where,
   orderBy,
+  Timestamp,
 } from "firebase/firestore";
 import { auth, db } from "./firebase-config.js";
-
+import gsap from "gsap";
 import "./css/chat.css";
+
 
 const MyElement3D = (props) => {
   const { room } = props;
@@ -44,34 +45,65 @@ const MyElement3D = (props) => {
   const mixer = new THREE.AnimationMixer(model);
   const animationClip = model.animations && model.animations[0];
 
-  console.log(model.animations);
+  // useHelper(directionalLight, THREE.DirectionalLightHelper, 1, "teal");
+  // useHelper(pointLight, THREE.PointLightHelper, 1, "teal");
+  // useHelper(pointLight1, THREE.PointLightHelper, 1, "teal");
 
+  const { camera } = useThree();
   if (animationClip) {
     animationClip.duration = 9;
     const action = mixer.clipAction(animationClip);
     action.play();
   }
 
+  //FBX 애니메이션 프레임
   useFrame(() => {
     if (animationClip) {
-      mixer.update(0.001);    
+      mixer.update(0.001);
     }
   });
 
-  useHelper(directionalLight, THREE.DirectionalLightHelper, 1, "teal");
-  useHelper(pointLight, THREE.PointLightHelper, 1, "teal");
-  useHelper(pointLight1, THREE.PointLightHelper, 1, "teal");
+  //카메라 애니메이션 프레임
+  useFrame((state, delta) => {
+    const radius = 3; // 원의 반지름
+    const speed = 0.2; // 원을 따라 도는 속도
 
-  // const animations = useAnimations(model.animations, model.scene)
-  // const action = animations.actions[actionNames[0]]
+    const theta = speed * state.clock.elapsedTime; // 현재 시간에 따른 각도 계산
 
-  // useFrame((state) => {
-  //     clicked_location.getWorldPosition(target)
-  //     state.camera.position.copy(clicked_location.position)-(new THREE.Vector3(1, 1, 1))
-  //     state.camera.lookAt(clicked_location.position)
-  // })
+    // 카메라 위치 업데이트
+    camera.position.x = radius * Math.cos(-theta);
+    camera.position.y = 2.5;
+    camera.position.z = radius * Math.sin(-theta);
 
-  const { camera } = useThree();
+    // 카메라가 항상 (0,0,0)을 향하도록 설정
+    camera.lookAt(0, 1, 0);
+  });
+
+
+
+  const BasicMaterial = new THREE.MeshStandardMaterial({
+    color: new THREE.Color("#e6a0d2"),
+    roughness: 1.0,
+    flatShading: false,
+  });
+
+  const BasicMaterial2 = new THREE.MeshStandardMaterial({
+    color: new THREE.Color("#e6a0d2"),
+    emissive: new THREE.Color("#e6a0d2"),
+    emissiveIntensity: 0.5
+  });
+
+
+  //Write all model.children's material to BasicMaterial with for loop
+  model.children[5].material = BasicMaterial2;
+
+  model.children[88].children[1].traverse((child) => {
+    child.material = new THREE.MeshStandardMaterial({
+      map: texture,
+      roughness: 0.5,
+      metalness: 0.5,
+    });
+  });
 
   useEffect(() => {
     const queryMessages = query(
@@ -89,15 +121,6 @@ const MyElement3D = (props) => {
     return () => unsubscribe();
   }, []);
 
-  const playAudio = (path) => {
-    const audio = new Audio("./sounds/background.m4a");
-    audio.play();
-  };
-
-  const playKick = (path) => {
-    const audio = new Audio("./sounds/kick.wav");
-    audio.play();
-  };
 
   const [loadedMessages, setLoadedMessages] = useState([
     {
@@ -108,14 +131,12 @@ const MyElement3D = (props) => {
     },
   ]);
 
+
+
+
   useEffect(() => {
     for (var i = 0; i < loadedMessages.length; i++) {
-      if (loadedMessages[i].text == "factory01") {
-        playKick();
-      }
-      if (loadedMessages[i].text == "pCube1") {
-        playAudio();
-      }
+  
     }
   }, [loadedMessages]);
 
@@ -140,16 +161,20 @@ const MyElement3D = (props) => {
     }
   });
 
-  console.log(model.children)
-
-  model.children[88].children[1].traverse((child) => {
-    child.material = new THREE.MeshStandardMaterial({
-      map: texture,
-      roughness: 0.5,
-      metalness: 0.5,
+  const moveCamera = () => {
+    gsap.to(
+    camera.position, {
+      duration: 3, // 이동하는 데 걸리는 시간 (초)
+      x: 0,
+      y: 1,
+      z: 2, // 목표 위치
+      ease: "power2.inOut", // 이징 함수 설정
     });
-  });
+  };
 
+  useEffect(() => {
+    moveCamera(); // 페이지가 로드될 때 카메라 이동 애니메이션 실행
+  }, []);
 
   const LightController = (props) => (
     <>
@@ -157,7 +182,7 @@ const MyElement3D = (props) => {
         ref={directionalLight}
         castShadow
         position={[10, 10, 10]}
-        intensity={4}
+        intensity={1}
         shadow-camera-near={1}
         shadow-mapSize-width={512}
         shadow-mapSize-height={512}
@@ -173,27 +198,23 @@ const MyElement3D = (props) => {
         castShadow
         position={[-10, 0, -20]}
         intensity={0.5}
-        useHelper={true}
+        useHelper={false}
       />
       <pointLight
         ref={pointLight1}
         castShadow
         position={[0, 0, 0]}
         intensity={1.5}
-        useHelper={true}
+        useHelper={false}
       />
     </>
   );
 
+
   return (
-    <>
+    <>     
       <Environment preset="sunset" />
       <LightController />
-      <primitive
-        scale={3.0}
-        position={[0, 0, 0]}
-        object={model2.scene}
-      ></primitive>
 
       <primitive
         scale={0.01}
@@ -215,9 +236,10 @@ const MyElement3D = (props) => {
           document.body.style.cursor = "default";
         }}
       />
-
     </>
   );
 };
 
 export default MyElement3D;
+
+

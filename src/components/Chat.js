@@ -21,13 +21,19 @@ import * as THREE from "three";
 import { MyElement3D } from "../MyElement3D";
 import { auth, db } from "../firebase-config.js";
 import "../css/chat.css";
+import { playBackground } from "./Background.js";
 
+
+
+
+//Real Interaction Sound
 export const Chat = (props) => {
   const { room } = props;
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
   const messagesRef = collection(db, "messages");
+  let i= 0;
 
   useEffect(() => {
     // 컴포넌트가 처음으로 마운트될 때 초기 메시지를 가져오기
@@ -59,7 +65,6 @@ export const Chat = (props) => {
     fetchMessages();
   }, []);
 
-  console.log(messagesRef)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,13 +83,13 @@ export const Chat = (props) => {
   };
 
   const playAudio = (path) => {
-    const audio = new Audio("../sounds/background.m4a");
-    audio.play();
+    const audio = new Audio("../sounds/ambientSound.wav");
+    audio.play(0.1);
   };
 
   const playKick = (path) => {
     const audio = new Audio("../sounds/kick.wav"); 
-    audio.play();
+    audio.play(0.1);
   }
 
   const [loadedMessages, setLoadedMessages] = useState([
@@ -96,16 +101,42 @@ export const Chat = (props) => {
     },
   ]);
 
+  // const sound = () => {
+  //   for (var i = 0; i < loadedMessages.length; i++) {
+  //     if (loadedMessages[i].text == "pCube1") {
+  //       playKick();
+  //     }
+  //   }
+  // };
 
-  useEffect(() => {
-    for (var i = 0; i < loadedMessages.length; i++) {
-      if (loadedMessages[i].text == "factory01") {
+  // console.log(loadedMessages.length)
+  var intervalId;
+  setTimeout(function() {
+  intervalId = setInterval(function() {
+    while(i < loadedMessages.length){
+      if(loadedMessages[i].text == "pCube1"){
         playKick();
+
       }
+      else if(loadedMessages[i].text == "polySurface10"){
+        playAudio();
+      }
+      console.log(loadedMessages[i].text);
+      console.log(i);
+      i++;
     }
-  }, [loadedMessages]);
+  }, 100);
+}, 15000);
+
+  // 5초 후에 clearInterval() 함수를 사용하여 타이머 중지
+  setTimeout(function() {
+    clearInterval(intervalId);
+  }, 60000);
+
 
   return (
+    <>
+    <playBackground/>
     <div className="chat-app">
       <div className="chat-title">Cell on the beach</div>
 
@@ -132,5 +163,7 @@ export const Chat = (props) => {
         </button>
       </form>
     </div>
+    </>
   );
 };
+
