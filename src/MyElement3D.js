@@ -66,20 +66,20 @@ const MyElement3D = (props) => {
 
 
   //카메라 애니메이션 프레임
-  // useFrame((state, delta) => {
-  //   const radius = 3; // 원의 반지름
-  //   const speed = 0.2; // 원을 따라 도는 속도
+  useFrame((state, delta) => {
+    const radius = 3; // 원의 반지름
+    const speed = 0.2; // 원을 따라 도는 속도
 
-  //   const theta = speed * state.clock.elapsedTime; // 현재 시간에 따른 각도 계산
+    const theta = speed * state.clock.elapsedTime; // 현재 시간에 따른 각도 계산
 
-  //   // 카메라 위치 업데이트
-  //   camera.position.x = radius * Math.cos(-theta);
-  //   camera.position.y = 2.5;
-  //   camera.position.z = radius * Math.sin(-theta);
+    // 카메라 위치 업데이트
+    camera.position.x = radius * Math.cos(-theta);
+    camera.position.y = 2.5;
+    camera.position.z = radius * Math.sin(-theta);
 
-  //   // 카메라가 항상 (0,0,0)을 향하도록 설정
-  //   camera.lookAt(0, 1, 0);
-  // });
+    // 카메라가 항상 (0,0,0)을 향하도록 설정
+    camera.lookAt(0, 1, 0);
+  });
 
 
   console.log(model.children);

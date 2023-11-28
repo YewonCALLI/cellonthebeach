@@ -43,6 +43,7 @@
     left: 40px;
     top:16.2%;
     font-family: 'SUITE-Regular';
+    overflow: scroll;
 }
 
 @media screen and (max-width: 768px) {
@@ -54,6 +55,8 @@
     }
     .messages{
         position: absolute;
+        overflow: scroll;
+        overflow-y: scroll;
         top: 80%;
         left:5%;
         height: 100px;

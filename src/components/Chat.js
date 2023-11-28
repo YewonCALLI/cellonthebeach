@@ -158,8 +158,8 @@ export const Chat = (props) => {
             {message.text}
           </div>
         ))}
-      </div>
-      <form onSubmit={handleSubmit} className="new-message-form">
+      </div> 
+      {/* <form onSubmit={handleSubmit} className="new-message-form">
         <input
           className="new-message-input"
           placeholder="Type your message here..."
@@ -169,7 +169,7 @@ export const Chat = (props) => {
         <button type="submit" className="send-button">
           Send
         </button>
-      </form>
+      </form> */}
     </div>
     </>
   );
