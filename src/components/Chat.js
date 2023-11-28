@@ -133,10 +133,10 @@ export const Chat = (props) => {
         else if (messages[messages.length - 1] && messages[messages.length - 1].text === "factory01") {
           playSound1();
         }
-        else if (messages[messages.length - 1] && messages[messages.length - 1].text === "elevator_fight") {
+        else if (messages[messages.length - 1] && messages[messages.length - 1].text === "water_box") {
           playSound2();
         }
-        else if (messages[messages.length - 1] && messages[messages.length - 1].text === "enzyme26") {
+        else if (messages[messages.length - 1] && messages[messages.length - 1].text === "elevator_enz") {
           playSound3();
         }
         else if (messages[messages.length - 1] && messages[messages.length - 1].text === "pPlane1") {
