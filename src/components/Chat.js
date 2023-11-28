@@ -91,6 +91,26 @@ export const Chat = (props) => {
     audio.play(0.1);
   }
 
+  const playSound1 = (path) => {
+    const audio = new Audio("../sounds/sound1.wav"); 
+    audio.play(0.1);
+  }
+
+  const playSound2 = (path) => {
+    const audio = new Audio("../sounds/sound2.wav"); 
+    audio.play(0.1);
+  }
+
+  const playSound3 = (path) => {
+    const audio = new Audio("../sounds/sound3.wav"); 
+    audio.play(0.1);
+  }
+
+  const playSound4 = (path) => {
+    const audio = new Audio("../sounds/sound5.wav"); 
+    audio.play(0.1);
+  }
+
   const [loadedMessages, setLoadedMessages] = useState([
     {
       text: messages,
@@ -108,6 +128,18 @@ export const Chat = (props) => {
           playKick();
         }
         else if (messages[messages.length - 1] && messages[messages.length - 1].text === "pCube3") {
+          playAudio();
+        }
+        else if (messages[messages.length - 1] && messages[messages.length - 1].text === "factory01") {
+          playAudio();
+        }
+        else if (messages[messages.length - 1] && messages[messages.length - 1].text === "elevator_fight") {
+          playAudio();
+        }
+        else if (messages[messages.length - 1] && messages[messages.length - 1].text === "enzyme26") {
+          playAudio();
+        }
+        else if (messages[messages.length - 1] && messages[messages.length - 1].text === "pPlane1") {
           playAudio();
         }
     //   }, 100);
@@ -144,7 +176,6 @@ export const Chat = (props) => {
 
   return (
     <>
-    <Background/>
     <div className="chat-app">
       <div className="chat-title">Cell on the beach</div>
 
