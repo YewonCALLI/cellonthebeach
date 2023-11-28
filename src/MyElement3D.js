@@ -63,23 +63,26 @@ const MyElement3D = (props) => {
     }
   });
 
+
+
   //카메라 애니메이션 프레임
-  useFrame((state, delta) => {
-    const radius = 3; // 원의 반지름
-    const speed = 0.2; // 원을 따라 도는 속도
+  // useFrame((state, delta) => {
+  //   const radius = 3; // 원의 반지름
+  //   const speed = 0.2; // 원을 따라 도는 속도
 
-    const theta = speed * state.clock.elapsedTime; // 현재 시간에 따른 각도 계산
+  //   const theta = speed * state.clock.elapsedTime; // 현재 시간에 따른 각도 계산
 
-    // 카메라 위치 업데이트
-    camera.position.x = radius * Math.cos(-theta);
-    camera.position.y = 2.5;
-    camera.position.z = radius * Math.sin(-theta);
+  //   // 카메라 위치 업데이트
+  //   camera.position.x = radius * Math.cos(-theta);
+  //   camera.position.y = 2.5;
+  //   camera.position.z = radius * Math.sin(-theta);
 
-    // 카메라가 항상 (0,0,0)을 향하도록 설정
-    camera.lookAt(0, 1, 0);
-  });
+  //   // 카메라가 항상 (0,0,0)을 향하도록 설정
+  //   camera.lookAt(0, 1, 0);
+  // });
 
 
+  console.log(model.children);
 
   const BasicMaterial = new THREE.MeshStandardMaterial({
     color: new THREE.Color("#e6a0d2"),
@@ -92,6 +95,19 @@ const MyElement3D = (props) => {
     emissive: new THREE.Color("#e6a0d2"),
     emissiveIntensity: 0.5
   });
+
+  const BasicMaterial3 = new THREE.MeshStandardMaterial({
+    color: new THREE.Color("#e6a0d2"),
+    emissive: new THREE.Color("#e6a0d2"),
+    emissiveIntensity: 0.5,
+    visible: false
+  });
+
+
+  model.children[2].material = BasicMaterial3;
+  model.children[14].material = BasicMaterial3;
+  model.children[15].material = BasicMaterial3;
+  model.children[16].material = BasicMaterial3;
 
 
   //Write all model.children's material to BasicMaterial with for loop
@@ -161,20 +177,20 @@ const MyElement3D = (props) => {
     }
   });
 
-  const moveCamera = () => {
-    gsap.to(
-    camera.position, {
-      duration: 3, // 이동하는 데 걸리는 시간 (초)
-      x: 0,
-      y: 1,
-      z: 2, // 목표 위치
-      ease: "power2.inOut", // 이징 함수 설정
-    });
-  };
+  // const moveCamera = () => {
+  //   gsap.to(
+  //   camera.position, {
+  //     duration: 3, // 이동하는 데 걸리는 시간 (초)
+  //     x: 0,
+  //     y: 1,
+  //     z: 2, // 목표 위치
+  //     ease: "power2.inOut", // 이징 함수 설정
+  //   });
+  // };
 
-  useEffect(() => {
-    moveCamera(); // 페이지가 로드될 때 카메라 이동 애니메이션 실행
-  }, []);
+  // useEffect(() => {
+  //   moveCamera(); // 페이지가 로드될 때 카메라 이동 애니메이션 실행
+  // }, []);
 
   const LightController = (props) => (
     <>
@@ -224,6 +240,8 @@ const MyElement3D = (props) => {
           // target = clicked_location.position
           setNewMessage(event.object.name);
           handleSubmit(event);
+          camera.lookAt(event.object);
+
           event.object.material.color.set(
             `hsl(${Math.random() * 360}, 100%, 75%)`
           );

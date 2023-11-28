@@ -21,8 +21,7 @@ import * as THREE from "three";
 import { MyElement3D } from "../MyElement3D";
 import { auth, db } from "../firebase-config.js";
 import "../css/chat.css";
-import { playBackground } from "./Background.js";
-
+import { Background } from "../components/Background";
 
 
 
@@ -145,7 +144,7 @@ export const Chat = (props) => {
 
   return (
     <>
-    <playBackground/>
+    <Background/>
     <div className="chat-app">
       <div className="chat-title">Cell on the beach</div>
 

@@ -36,8 +36,6 @@ function Room(){
         <>{
             room ? (<>
                 <div className='background'>
-                    <Background/>
-
                     <div className='chat'>
                         <Chat room={room}/>
                     </div>
