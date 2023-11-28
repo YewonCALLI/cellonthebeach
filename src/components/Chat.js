@@ -131,16 +131,16 @@ export const Chat = (props) => {
           playAudio();
         }
         else if (messages[messages.length - 1] && messages[messages.length - 1].text === "factory01") {
-          playAudio();
+          playSound1();
         }
         else if (messages[messages.length - 1] && messages[messages.length - 1].text === "elevator_fight") {
-          playAudio();
+          playSound2();
         }
         else if (messages[messages.length - 1] && messages[messages.length - 1].text === "enzyme26") {
-          playAudio();
+          playSound3();
         }
         else if (messages[messages.length - 1] && messages[messages.length - 1].text === "pPlane1") {
-          playAudio();
+          playSound4();
         }
     //   }, 100);
     // });
